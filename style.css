@@ -1,9 +1,15 @@
-body {
-    background: #0F2027;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Prompt', sans-serif;
 }
+
+body {
+    background: #1488CC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2B32B2, #1488CC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+
 
 #descripcion {
     resize: none;
@@ -16,4 +22,20 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+
 
 .bg-white {
     background-color: white;
+}
+
+.premios {
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+}
+
+.premios h1{
+    font-size: 46px;
+    font-weight: 900;
+    margin-top: 50px;
+}
+
+#container my-4 {
+    border-radius: 2px;
 }
