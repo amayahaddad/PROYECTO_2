@@ -132,23 +132,24 @@ function editRow(id) {
     const index = tareas.findIndex((tarea) => tarea.id == id);
     const tarea = tareas[index];
   
-    nameInput.value = tarea.name;
-    phoneInput.value = tarea.phone;
-    rifasInput.value = tarea.rifas;
+    nameInput.value = tarea.name
+    phoneInput.value = tarea.phone
+    rifasInput.value = tarea.rifas
   
-    editBtn = true;
-    idEditBtn = id;
+    editBtn = true
+    idEditBtn = id
   }
   
 
   function edit(event) {
-    event.preventDefault();
+    event.preventDefault()
 
-    const tarea = readForm();
-    const index = tareas.findIndex((tarea) => tarea.id == id);
+    const tarea = readForm()
+    const index = tareas.findIndex((taread) => taread.id == tarea.id);
     tareas[index] = tarea;
+    console.log(index)
 
-    const row = document.getElementById(tarea.id);
+    const row = document.getElementById(tarea.id)
     row.innerHTML = `
             <tr>
             <td class="centrar">${tarea.name}</td>
@@ -161,14 +162,16 @@ function editRow(id) {
         </tr>
         `
 
-    saveDataLS();
-    clearForm();
+    saveDataLS()
+    clearForm()
 
-    addButton.classList.remove("hide");
-    editButton.classList.add("hide");
+    addButton.classList.remove("hide")
+    editButton.classList.add("hide")
 
-    idEditBtn = null;
-    editBtn = false;
+    idEditBtn = null
+    editBtn = false
+
+    readFromLS()
 }
 
 
