@@ -40,3 +40,8 @@ body {
     border-radius: 2px;
 }
 
+.hide {
+    display: none
+}
+
+

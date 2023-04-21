@@ -14,14 +14,26 @@ const addButton = document.getElementById("add")
 addButton.addEventListener("click", create)
 let tareas = []
 
+
+let editBtn = false
+let idEditBtn = null
+
+const nameInput = document.getElementById("name")
+const phoneInput = document.getElementById("phone")
+const rifasInput = document.getElementById("rifas")
+const editButton = document.getElementById("edit");
+editButton.addEventListener("click", edit);
+
 // 2. Create: con preventDefault se evita que por defecto recargue la página.
 // 
 function create(event) {
     event.preventDefault()
     const tarea = readForm()
+    tareas.push(tarea)
     createRow(tarea)
     clearForm()
     saveDataLS()
+    console.log(tareas)
 
 }
 
@@ -29,21 +41,23 @@ function create(event) {
     //armamos un objeto donde se asigna un valor a las propiedads
     //push al array de Tareas 
     // retorna el objeto 
-function readForm () {
-    const nameInput = document.getElementById("name")
-    const phoneInput = document.getElementById("phone")
-    const rifasInput = document.getElementById("rifas")
-
-    const tarea = {
-        name: nameInput.value,
-        phone: phoneInput.value,
-        rifas: rifasInput.value
-    }   
-    tareas.push(tarea)
-   
-    return tarea
-}
-
+function readForm() {
+        let id = Date.now();
+      
+        if (editBtn && idEditBtn !== null) {
+          id = idEditBtn;
+        }
+      
+        const tarea = {
+          id: id,
+          name: nameInput.value,
+          phone: phoneInput.value,
+          rifas: rifasInput.value,
+        };
+      
+        return tarea;
+      }
+      
 
 // 4. Agrega una fila al html 
 function createRow(tarea) {
@@ -55,8 +69,8 @@ function createRow(tarea) {
             <td class="centrar">${tarea.phone}</td>
             <td class="centrar">${tarea.rifas}</td>
             <td class="centrar">
-            <button type="button" class="btn btn-success"><i class="fa fa-pencil-square-o"(${tarea.id})></i></button>
-            <button type="button" class="btn btn-danger"><i class="fa fa-times-circle-o"(${tarea.id})></i></button>
+            <button onclick = "editRow('${tarea.id}')"<i class="fa fa-pencil-square-o btn btn-success"></i></button>
+            <button onclick = "deleteRow('${tarea.id}')"<i class="fa fa-times-circle-o btn btn-danger"></i></button>
         </td>
         </tr>
         `
@@ -83,43 +97,70 @@ function saveDataLS() {
         //     } else {
         //         tareas = []
         //     }
-    function readFromLS() {
-    tareas = JSON.parse(localStorage.getItem(tareas)) || []
-    tareas.forEach((el) => createRow(el))
 
-  }
-
-  function deleteRow(id) {
-    const index = tareas.findIndex((tarea) => tarea.id == id);
-    tareas.splice(index, 1);
-    saveDataLS();
-    readFromLS();
-    tbody.innerHTML = "";
-    tareas.forEach((tarea) => createRow(tarea));
+        //     function readFromLS() {
+        //     tareas = JSON.parse(localStorage.getItem(tareas)) || []
+        //     tareas.forEach((el) => createRow(el))
+        //   }
+        function readFromLS() {
+            const tareasLS = JSON.parse(localStorage.getItem('tareas'));
+    if (tareasLS) {
+        tareas = tareasLS
+        tareas.forEach((tarea) => createRow(tarea));
+    } else {
+        tareas = []
+    }
 }
+          
+
+  //8. deleteRow: Esta función elimina una tarea del array de la lista de tareas y actualiza la tabla.
+  function deleteRow(id) {
+    const index = tareas.findIndex((tarea) => tarea.id == id)
+    tareas.splice(index, 1)
+    saveDataLS()
+    readFromLS()
+    const tbody = document.getElementById('tbody')
+    tbody.innerHTML = ''
+    tareas.forEach((tarea) => createRow(tarea))
+  }
   
-
-  function editRow(id) {
-    addButton.classList.add("hide")
-    editButton.classList.remove("hide")
+// editRow: Esta función prepara el formulario para editar una tarea. Oculta el botón "agregar" y muestra el botón "editar", llena el formulario con los datos de la tarea y establece las variables editBtn e idEditBtn en true.
+function editRow(id) {
+    addButton.classList.add("hide");
+    editButton.classList.remove("hide");
+  
     const index = tareas.findIndex((tarea) => tarea.id == id);
-    const tarea = tareas[index]
-
-    productsInput.value = tarea.name;
-    unitsInput.value = tarea.phone;
-    categoryInput.value = tarea.rifas;
-
+    const tarea = tareas[index];
+  
+    nameInput.value = tarea.name;
+    phoneInput.value = tarea.phone;
+    rifasInput.value = tarea.rifas;
+  
     editBtn = true;
     idEditBtn = id;
+  }
+  
 
-}
+  function edit(event) {
+    event.preventDefault();
 
-function edit(e) {
-    e.preventDefault()
-    const respuesta = formulario()
-    const index = tareas.findIndex((tarea) => tarea.id == respuesta.id);
-    tareas[index] = respuesta;
-    console.log(index)
+    const tarea = readForm();
+    const index = tareas.findIndex((tarea) => tarea.id == id);
+    tareas[index] = tarea;
+
+    const row = document.getElementById(tarea.id);
+    row.innerHTML = `
+            <tr>
+            <td class="centrar">${tarea.name}</td>
+            <td class="centrar">${tarea.phone}</td>
+            <td class="centrar">${tarea.rifas}</td>
+            <td class="centrar">
+            <button onclick = "editRow('${tarea.id}')"<i class="fa fa-pencil-square-o btn btn-success"></i></button>
+            <button onclick = "deleteRow('${tarea.id}')"<i class="fa fa-times-circle-o btn btn-danger"></i></button>
+        </td>
+        </tr>
+        `
+
     saveDataLS();
     clearForm();
 
@@ -128,11 +169,8 @@ function edit(e) {
 
     idEditBtn = null;
     editBtn = false;
-    
-
-    tbody.innerHTML = "";
-    readFromLS();
 }
+
 
 readFromLS()
 

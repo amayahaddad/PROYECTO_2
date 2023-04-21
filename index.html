@@ -81,7 +81,7 @@
     <div class="container my-4">
         <div class="row">
             <div class=" col-sm-12 col-md-4 col-lg-4 col-xl-4 py-4 bg-white">
-                <form>
+                <form id="form">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="name" placeholder="Nombre completo">
@@ -95,8 +95,8 @@
                         <input type="number" class="form-control" id="rifas">
                       </div>
                       <div class="d-grid gap-2">
-                        <button class="btn btn-primary" id="add">Comprar</button>
-                        <button class="btn btn-secondary" id="delete">Cancelar</button>
+                        <button class="btn btn-primary" ype="submit" id="add">Comprar</button>
+                        <button class="hide btn btn-secondary" type="submit" id="edit">Actualizar</button>
                       </div>
                       
                 </form>
@@ -196,7 +196,7 @@
 <footer class="text-center text-lg-start bg-light text-muted">
   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
   </section>
-  
+
   <!-- Section: Links  -->
   <section class="">
     <div class="container text-center text-md-start mt-5">
